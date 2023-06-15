@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useWorkoutContext } from '../hooks/useWorkoutContext'
 
 const WorkoutForm = () => {
+    // 17. import useWorkoutContext, and now we can consume the custom useContext hook
+    const {dispatch} = useWorkoutContext();
     const [title, setTitle] = useState("");
     const [load, setLoad] = useState("");
     const [reps, setReps] = useState("");
@@ -26,6 +29,8 @@ const WorkoutForm = () => {
             setReps("");
             setTitle("");
             console.log("new workout added", data);
+            // 18. dispatch the type of state change along with the payload
+            dispatch({type:"CREATE_WORKOUT", payload: data})
 
         }
     }
