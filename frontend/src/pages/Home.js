@@ -18,7 +18,7 @@ const Home = () => {
             }
         }
         fetchWorkouts();
-        // 16. in the dependency array, add dispatch to re-render everytime the dispatch function is called
+        // 16. in the dependency array, add dispatch to re-render everytime the dispatch function is changed
     }, [dispatch])
 
     return (

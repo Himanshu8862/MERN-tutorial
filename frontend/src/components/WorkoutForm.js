@@ -8,6 +8,7 @@ const WorkoutForm = () => {
     const [load, setLoad] = useState("");
     const [reps, setReps] = useState("");
     const [error, setError] = useState(null);
+    const [emptyFields, setEmptyFields] = useState([])
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
@@ -22,12 +23,14 @@ const WorkoutForm = () => {
         const data = await response.json();
 
         if(!response.ok){
+            setEmptyFields(data.emptyFields);
             setError(data.error);
         }else{
             setError(null);
             setLoad("");
             setReps("");
             setTitle("");
+            setEmptyFields([]);
             console.log("new workout added", data);
             // 18. dispatch the type of state change along with the payload
             dispatch({type:"CREATE_WORKOUT", payload: data})
@@ -44,18 +47,21 @@ const WorkoutForm = () => {
                 type="text"
                 onChange={(e)=>setTitle(e.target.value)}
                 value = {title}
+                className={emptyFields.includes("title") ? "error" : ""}
             />
             <label>Load (kg):</label>
             <input
                 type="number"
                 onChange={(e)=>setLoad(e.target.value)}
                 value = {load}
+                className={emptyFields.includes("load") ? "error" : ""}
             />
             <label>Reps:</label>
             <input
                 type="number"
                 onChange={(e)=>setReps(e.target.value)}
                 value = {reps}
+                className={emptyFields.includes("reps") ? "error" : ""}
             />
             <button>Add workout</button>
             {error && <div className="error">{error}</div>}
