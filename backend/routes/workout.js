@@ -7,7 +7,10 @@ const {
     deleteWorkoutCont,
     updateWorkoutCont
 } = require("../controllers/workoutController")
+const requireAuth = require("../middleware/requireAuth")
 
+// this middleware function gets fired before any of the routes below
+workoutRouter.use(requireAuth)
 
 // GET all workouts
 workoutRouter.get("/", getWorkoutsCont)
