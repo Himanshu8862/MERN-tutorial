@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useWorkoutContext } from '../hooks/useWorkoutContext'
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const WorkoutForm = () => {
+
+    const { user } = useAuthContext()
+
     // 17. import useWorkoutContext, and now we can consume the custom useContext hook
     const {dispatch} = useWorkoutContext();
     const [title, setTitle] = useState("");
@@ -12,12 +16,19 @@ const WorkoutForm = () => {
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
+
+        if(!user){
+            setError("You must be logged in")
+            return
+        }
+
         const newWorkout = {title, load, reps}
         const response = await fetch("/api/workouts", {
             method: "POST",
             body: JSON.stringify(newWorkout),
             headers:{
-                "Content-type": "application/json "
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${user.token}`
             }
         })
         const data = await response.json();
