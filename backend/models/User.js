@@ -43,7 +43,7 @@ userSchema.statics.register = async function(email, password) { // we can not us
 }
 
 
-// static resgister method
+// static login method
 userSchema.statics.login = async function (email, password) {
 
     if(!email || !password){
